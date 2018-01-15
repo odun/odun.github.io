@@ -1,0 +1,75 @@
+.topbar{
+  overflow: hidden;
+  background-color: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  border-bottom: 1px solid black;
+}
+.topbar img{
+  display: block;
+  float: left;
+}
+.topbar a {
+    float: left;
+    display: block;
+    color: #333;
+    text-align: center;
+    text-decoration: none;
+  padding: 1vh;
+}
+.topbar a:hover {
+    background: #000;
+    color: #eee;
+}
+.topbar a p{
+    padding: 1vh;
+}
+.content{
+  height: 14vh;
+  border: 1px solid #aaa;
+  margin: 0;
+  padding: 0;
+}
+table{
+  border: 0;
+  margin: 0;
+  padding: 0;
+  cellpadding: 0;
+  cellspacing: 0;
+}
+td{
+  vertical-align: top;
+  margin: 0;
+  padding: 0;
+}
+.mains{
+  max-width: 160vh;
+}
+
+
+
+
+* {box-sizing: border-box;}
+
+.wrapper {
+  margin-top: 4vh;
+  border: 0.1vh solid #aaaaaa;
+  border-radius: 5px;
+  background-color: #f7f7f7;
+}
+
+.wrapper > div {
+  padding: 1vh;
+  margin: 0.4vh;
+  flex: 1 1 300px;
+}
+.wrapper > div p {
+  margin: 1vh;
+}
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+

@@ -1,0 +1,146 @@
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="proliferation.css">
+</head>
+<body>
+
+
+<div class="topbar">
+<img style="height:5vh" src="dandy.png">
+<a href="/">
+Proliferation
+</a>
+</div>
+
+<div class="mains">
+<p style="margin-top:10vh">Courses for Oliver</p>
+
+<div class="course">
+
+<div class="stuff">
+<table>
+<tr><td>
+<img class="content" src="db.png">
+</td><td>
+<p><a href="/">Database Systems Applied to Business</a></p>
+</td></tr></table>
+</div>
+
+<div class="stuff">
+<p><a href="/">Class Info</a></p>
+<p>Class average is 65% with 52% of students passing</p>
+<p>6 Assignments Given, 3 Quizzes Given</p>
+<p>Average review time per student per week: 5 minutes</p>
+</div>
+
+<div class="stuff">
+<p><a href="/">Add questions to the database</a></p>
+<p><a href="/">Make a new assignment</a></p>
+<p><a href="/">Make a new quiz</a></p>
+</div>
+
+</div>
+
+<div class="course">
+
+<div class="stuff">
+<table>
+<tr><td>
+<img class="content" src="analysis.png">
+</td><td>
+<p><a href="/">Data Analysis: Going Big</a></p>
+</td></tr></table>
+</div>
+
+<div class="stuff">
+<p>Homework: <a href="/">Assignment 3</a> (due Jan 20)</p>
+<p>Next Quiz: <a href="/">Jan 31</a> (18 days from now)</p>
+</div>
+
+</div>
+
+<p style="margin-top:10vh">Upcoming Dates</p>
+
+<div class="course">
+<p>Jan 20  Data Analysis: Going Big <a href="/">Assignment 3</a> due (7 days from now)</p>
+</div>
+
+<div class="course">
+<p>Jan 23  Database Systems Applied to Business <a href="/">Quiz</a> (10 days from now)</p>
+</div>
+
+
+<div class="course">
+<p>Jan 31  Data Analysis: Going Big <a href="/">Quiz</a> (18 days from now)</p>
+</div>
+
+<div style="width:50vh;margin:0 auto;">
+<p id="p1" style="text-align:center;margin:0.5vh;">Class Performance</p>
+<canvas id="myCanvas" width="200" height="100"
+style="border:1px solid #d3d3d3;">
+Your browser does not support the canvas element.
+</canvas>
+</div>
+
+<script>
+var canvo = {};
+function line(x1, y1, x2, y2){
+  var ctx = canvo.canvas.getContext("2d");
+  var sx = canvo.realw / canvo.w;
+  var sy = canvo.realh / canvo.h;
+  ctx.beginPath();
+  ctx.moveTo(x1*sx,y1*sy);
+  ctx.lineTo(x2*sx,y2*sy);
+  ctx.stroke();
+}
+function box(x1, y1, x2, y2, color){
+  var ctx = canvo.canvas.getContext("2d");
+  var sx = canvo.realw / canvo.w;
+  var sy = canvo.realh / canvo.h;
+  ctx.fillStyle = color;
+  ctx.fillRect(x1*sx,y1*sy,x2*sx,y2*sy);
+}
+function setup(w, h){
+  canvo.w = w;
+  canvo.h = h;
+  window.addEventListener("load", refresher);
+  window.addEventListener("resize", refresher);
+  refresher();
+}
+function setup_line_chart(w, h, data){
+  canvo.data = data;
+  canvo.drawit = function(){
+    var step = canvo.w / (canvo.data.length - 1);
+    for(var i = 1; i < canvo.data.length; i++){
+      line(step * (i - 1), canvo.h - canvo.data[i-1], step * i, canvo.h - canvo.data[i]);
+    }
+  }
+  setup(w, h);
+}
+function setup_bar_chart(w, h, data){
+  canvo.data = data;
+  canvo.drawit = function(){
+    var step = canvo.w / canvo.data.length;
+    box(0, 0, canvo.w, canvo.h, "#FFFFFF");
+    for(var i = 0; i < canvo.data.length; i++){
+      box(step * i, canvo.h - canvo.data[i], step, canvo.h, "#000000");
+    }
+  }
+  setup(w, h);
+}
+function refresher(){
+  canvo.canvas = document.getElementById("myCanvas");
+  canvo.realw = document.getElementById("p1").offsetWidth;
+  canvo.realh = canvo.realw * canvo.h / canvo.w;
+  canvo.canvas.width = canvo.realw;
+  canvo.canvas.height = canvo.realh;
+  // draw
+  canvo.drawit();
+}
+setup_line_chart(150,100,[50,70,20,50]);
+</script> 
+
+</div>
+</body>
+</html>
