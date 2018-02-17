@@ -1,0 +1,137 @@
+<!doctype HTML>
+<html>
+<head>
+<meta charset='UTF-8'>
+<style>
+/*
+@font-face {
+  font-family: 'Fontling';
+  src: url('font.woff') format('woff');
+}
+body{
+  font-family: 'Fontling';
+  background: '#000';
+  color: '#fff';
+}*/
+a{
+  color: #fff;
+}
+</style>
+<script>
+var chars = 30, lines = 3;
+var initial = 
+"<a href='javascript:run_headlines();' style='text-decoration:none'> ≡ </a>cuckling                            NEWS \n\
+┌─────────┬────────────────────────────────┐\n\
+│oliver   │ Americans with no confidence   │\n\
+│ 4mo  ago│ at all in mass media record    │\n\
+│ + 1.5k -│ high 29% (Gallup)             v│\n\
+└─────────┴────────────────────────────────┘\n\
+ view: <a href='javascript:cols(1)'>mobile</a> <a href='javascript:cols(2)'>tablet</a> <a href='javascript:cols(3)'>PC</a>";
+
+var tstrs = [
+ 'KILLER SHACKLED AND COWERING...',
+ 'FBI WAS WARNED...',
+ 'TROUBLED EX-STUDENT...',
+ '\'EVERYONE PREDICTED IT\'...',
+ 'Dangerous creep...',
+ 'MOM FLU DEATH SENT OVER EDGE?',
+ 'Lawyer: \'Broken Child\'...',
+ 'Football Coach Acted As Human Shield...',
+ 'LIST: VICTIMS...',
+ 'Granny Stops ANOTHER School Shooting...',
+ 'RUBIO: If someone wants to kill, they\'ll find a way...',
+ 'TRUMP ADDRESSES GRIEVING NATION...',
+ 'Plans School Visit...',
+ 'Russian opposition leader slams INSTA for caving to govt...',
+ 'Bow to censorship; Blocks corruption claims...',
+ 'FACEBOOK Spams Users With Texts On Numbers Given For \'Security\'...',
+ 'Iran Spying on USA, UK Using \'Weaponized\' Phone Apps?',
+ 'Ahmadinejad criticizes regime over protests, \'suicides\'...',
+ 'Italian criminologist: Ruthless Nigerian mafia colonising Italy',
+ 'Swedish pro-migration party admits: Costs of migrants are too high and will skyrocket'
+];
+var run_obj = {line_timeout:40, callback_timeout: 100};
+function start_headline(str){
+  run_obj.str = str;
+  run_obj.i = 0;
+  run_obj.cut = 0;
+  var stuff = document.getElementById('stuff');
+  var tops = '┌─────────┬────────────────────────────────┐\n';
+  var i = stuff.innerHTML.lastIndexOf(tops) + tops.length;
+  stuff.innerHTML = stuff.innerHTML.substring(0, i) +
+    '├─────────┼────────────────────────────────┤\n' +
+    stuff.innerHTML.substring(i);
+  next_line();
+}
+function next_line(){
+  function cut_it(str, cut){
+    var res = cut + chars;
+    if(res >= str.length) return str.length;
+    while(res > cut && str.charAt(res) != ' ') res--;
+    return res;
+  }
+  function skipws(str, cut){
+    while(cut < str.length && str.charAt(cut) == ' ') cut++;
+    return cut;
+  } 
+  var inner = '';
+  var str = run_obj.str;
+  var last_cut = skipws(str, run_obj.cut);
+  run_obj.cut = cut_it(str, last_cut);
+  if(run_obj.cut == last_cut){
+    inner += '│         │                                │\n';
+  }else{
+    inner += '│         │ ';
+    inner += str.substring(last_cut,run_obj.cut);
+    inner += Array(chars - run_obj.cut + last_cut + 1).join(' ');
+    inner += ' │\n';
+  }
+  var stuff = document.getElementById('stuff');
+  var tops = '┌─────────┬────────────────────────────────┐\n';
+  var i = stuff.innerHTML.lastIndexOf(tops) + tops.length * (run_obj.i + 1);
+  stuff.innerHTML = stuff.innerHTML.substring(0, i) +
+    inner + stuff.innerHTML.substring(i);
+  
+  run_obj.i++;
+  if(run_obj.i < lines) setTimeout(next_line, run_obj.line_timeout);
+  else setTimeout(run_obj.callback, run_obj.callback_timeout);
+}
+function add_string(str, slow){
+
+}
+function cols(n){
+  var stuff = document.getElementById('stuff');
+  stuff.style.fontSize = (3.5 / n) + 'vw';
+}
+function run_headlines(){
+  document.getElementById('stuff').innerHTML = initial;
+  run_obj.tstrs_i = 0;
+  start_headline(tstrs[run_obj.tstrs_i]);
+}
+function setup(){
+  if(/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    cols(1);
+  } else if(/iPad/i.test(navigator.userAgent)) {
+    cols(2);
+  } else {
+    cols(3);
+  }
+  run_obj.callback = function(){
+    run_obj.tstrs_i++;
+    if(run_obj.tstrs_i < tstrs.length){
+      start_headline(tstrs[run_obj.tstrs_i]);
+    }
+  }
+  run_headlines();
+}
+</script>
+</head>
+<body style='color:#fff;background:#000;font-size:3.5vw;margin:0;' onload='setup()'>
+<center>
+<pre id='stuff'>
+</pre>
+</center>
+</body>
+</html>
+
+
